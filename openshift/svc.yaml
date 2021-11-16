@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: dotnetcore-ex
+    app.kubernetes.io/component: dotnetcore-ex
+    app.kubernetes.io/instance: dotnetcore-ex
+  name: dotnetcore-ex
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    deployment: dotnetcore-ex
+  sessionAffinity: None
+  type: ClusterIP

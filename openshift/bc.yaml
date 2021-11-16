@@ -1,0 +1,19 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: dotnetcore-ex
+spec:
+  output:
+    to:
+      kind: "ImageStreamTag"
+      name: "dotnetcore-ex:latest"
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    dockerStrategy:
+      dockerfilePath: openshift/Dockerfile
+      from:
+        kind: "ImageStreamTag"
+        name: "dotnet:6.0"
+        namespace: openshift

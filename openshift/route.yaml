@@ -1,0 +1,19 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+  labels:
+    app: dotnetcore-ex
+    app.kubernetes.io/component: dotnetcore-ex
+    app.kubernetes.io/instance: dotnetcore-ex
+  name: dotnetcore-ex
+spec:
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: dotnetcore-ex
+    weight: 100
+  wildcardPolicy: None
+  tls: 
+    termination: edge 
