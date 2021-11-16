@@ -26,9 +26,7 @@ oc apply -f openshift/is.yaml
 ```
 
 2. To start the build run the following command in the parent directoy: 
-```
-oc start-build dotnetcore-ex --from-dir=./
-```
+   * `oc start-build dotnetcore-ex --from-dir=./`
 
 Validate a successful build: 
 1. check build summary: 
@@ -45,6 +43,30 @@ oc apply -f openshift/route.yaml
 ```
 
 Validate the you can reach the route url in the browser, `oc get route`, and navigate to the url on https, disable edge termination if necessary.
+
+## Modifying the BuildConfig 
+In the buildconfig provided, the builder pod will look for a imagestream **dotnet** with the tag **6.0** in the openshift namespace, and output build to a second image stream **dotnetcore-ex**  with the tag **latest**. Depending on the needs of the CI/CD pipeline the outputs and source images can point to alternative image repositories, such as Nexus, by using **DockerImage** in place of **ImageStreamTag**, see the example below. 
+```
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: dotnetcore-ex
+spec:
+  output:
+    to:
+      kind: "DockerImage"
+      name: "some-external-registry:5000/netcore-sample/dotnetcore-ex:latest"
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    dockerStrategy:
+      dockerfilePath: openshift/Dockerfile
+      from:
+        kind: "ImageStreamTag"
+        name: "dotnet:6.0"
+        namespace: openshift
+```
 
 ## Additional Documentation 
 Link to Redhat Documentation on DotNet on Openshift: [Getting started with .NET on RHEL 8](https://access.redhat.com/documentation/en-us/net/6.0/html/getting_started_with_.net_on_rhel_8/using_net_6_0_on_openshift_container_platform)

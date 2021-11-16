@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi8/dotnet-60:6.0-1
 
-#these commands can be updated to accomodate compiling the artifact in the container for ease of use
+#The ADD and RUN commands can be updated to accomodate compiling the artifact in the container for ease of use
 #fix according to the ci/cd pipeline needs  
 ADD app/ .
 
